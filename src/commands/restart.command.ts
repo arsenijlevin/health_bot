@@ -11,10 +11,6 @@ export class RestartCommand extends Command {
   }
 
   public async handle(ctx: CommandsContext): Promise<void> {
-    if (!ctx.session?.id) return;
-
-    ctx.session = undefined;
-
     await ctx.reply(Localization.t("info:restart"), {
       reply_markup: Markup.removeKeyboard().reply_markup,
       parse_mode: "HTML",

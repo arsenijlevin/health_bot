@@ -15,7 +15,6 @@
       "@abstract/*": ["./src/core/abstract/*"],
       "@config/*": ["./src/core/config/*"],
       "@container/*": ["./src/core/container/*"],
-      "@session/*": ["./src/core/session/*"],
       "@actions/*": ["./src/actions/*"],
       "@commands/*": ["./src/commands/*"],
       "@triggers/*": ["./src/triggers/*"],

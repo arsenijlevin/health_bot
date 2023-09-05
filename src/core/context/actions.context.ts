@@ -1,9 +1,8 @@
-import { NarrowedContext } from "telegraf";
+import { Context, NarrowedContext } from "telegraf";
 import { Update, CallbackQuery } from "typegram";
-import { IBotContext } from "./bot.context";
 
 export type ActionsContext = NarrowedContext<
-  IBotContext & {
+  Context & {
     match: RegExpExecArray;
   },
   Update.CallbackQueryUpdate<CallbackQuery>

@@ -7,7 +7,6 @@ const TYPES = {
   Trigger: Symbol("Trigger"),
   Message: Symbol("Message"),
   MessageTrigger: Symbol("MessageTrigger"),
-  ISession: Symbol("ISession"),
   Messages: Symbol("Messages"),
 };
 export default TYPES;

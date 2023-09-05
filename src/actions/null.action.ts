@@ -7,8 +7,6 @@ export class NullAction extends Action {
   }
 
   public async handle(ctx: ActionsContext): Promise<void> {
-    if (!ctx.session?.id) return;
-
     await ctx.answerCbQuery(undefined);
   }
 }

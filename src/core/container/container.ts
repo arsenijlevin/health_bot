@@ -18,8 +18,7 @@ import { Trigger } from "@abstract/trigger.class";
 
 import { Message } from "@abstract/triggers/message.class";
 import { MessageTrigger } from "@triggers/message.trigger";
-import { ISession } from "@session/session.interface";
-import { LocalSession } from "@session/sessions/local.session";
+
 
 import { NullAction } from "@actions/null.action";
 import { BotMessage } from "@triggers/messages/bot.message";
@@ -40,7 +39,6 @@ container.bind<Message>(TYPES.Message).to(BotMessage);
 container.bind<Trigger>(TYPES.Trigger).to(MessageTrigger);
 
 container.bind<IConfigService>(TYPES.IConfigService).to(ConfigService);
-container.bind<ISession>(TYPES.ISession).to(LocalSession);
 
 container.bind<Bot>(TYPES.Bot).to(Bot);
 export { container };

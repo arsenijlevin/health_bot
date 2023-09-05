@@ -1,28 +1,24 @@
 import { Telegraf } from "telegraf";
 import { Command } from "@abstract/command.class";
 import { IConfigService } from "@config/config.interface";
-import { IBotContext } from "@context/bot.context";
 import { Action } from "@abstract/actions.class";
 import { inject, injectable, multiInject } from "inversify";
 import TYPES from "@container/types";
 import { Trigger } from "@abstract/trigger.class";
-import { ISession } from "@session/session.interface";
 import Localization from "@core/locale/i18next";
 
 @injectable()
 export class Bot {
-  private bot: Telegraf<IBotContext>;
+  private bot: Telegraf;
 
   constructor(
     @inject(TYPES.IConfigService)
     private readonly configService: IConfigService,
-    @inject(TYPES.ISession) private readonly session: ISession,
     @multiInject(TYPES.Action) private readonly actions: Action[],
     @multiInject(TYPES.Command) private readonly commands: Command[],
     @multiInject(TYPES.Trigger) private readonly triggers: Trigger[]
   ) {
-    this.bot = new Telegraf<IBotContext>(this.configService.getBotToken());
-    this.bot.use(this.session.getMiddleware());
+    this.bot = new Telegraf(this.configService.getBotToken());
   }
 
   public async start(): Promise<void> {

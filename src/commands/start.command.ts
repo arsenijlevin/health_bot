@@ -1,7 +1,6 @@
 import { CommandsContext } from "@context/commands.context";
 import { Command } from "@abstract/command.class";
 import { injectable } from "inversify";
-import { SessionData } from "@context/bot.context";
 import Localization from "@core/locale/i18next";
 
 @injectable()
@@ -11,10 +10,7 @@ export class StartCommand extends Command {
   }
 
   public async handle(ctx: CommandsContext): Promise<void> {
-    if (!ctx.session?.id) {
-      ctx.session = {} as SessionData;
-      ctx.session.id = ctx.from.id;
-    }
+
     await this.handleUserStart(ctx);
   }
 
