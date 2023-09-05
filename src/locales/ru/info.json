@@ -1,0 +1,8 @@
+{
+  "key": "Привет, мир!",
+  "restart": "Бот перезапущен!\n\n<b>/start</b> - начать взаимодействие с ботом.",
+  "commandsInitializedSuccessful": "Команд успешно инициализировано: {{ count }}",
+  "actionsInitializedSuccessful": "Действий (actions) успешно инициализировано: {{ count }}",
+  "triggersInitializedSuccessful": "Триггеров (.on(...) action) успешно инициализировано: {{ count }}",
+  "botStartSuccessful": "Бот успешно запущен!"
+}

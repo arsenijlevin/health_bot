@@ -1,0 +1,6 @@
+{
+  "botStartFailed": "Ошибка при запуске бота!",
+  "loadingFile": "Ошибка при загрузке файла {{ file }}!",
+  "emptyFile": "Файл {{ file }} пустой!",
+  "missingEnvVariable": "Отсутствует переменная окружения: {{ env_var }}!"
+}
