@@ -9,3 +9,5 @@ node_modules
 dist
 
 sessions.json
+
+.node-persist

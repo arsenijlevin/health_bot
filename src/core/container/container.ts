@@ -19,9 +19,10 @@ import { Trigger } from "@abstract/trigger.class";
 import { Message } from "@abstract/triggers/message.class";
 import { MessageTrigger } from "@triggers/message.trigger";
 
-
 import { NullAction } from "@actions/null.action";
-import { BotMessage } from "@triggers/messages/bot.message";
+import { ChannelMessage } from "@triggers/messages/channel.message";
+
+import JSONStorage from "@core/storage/local/local.storage";
 
 const container = new Container({
   autoBindInjectable: true,
@@ -34,11 +35,12 @@ container.bind<Action>(TYPES.Action).to(NullAction);
 container.bind<Command>(TYPES.Command).to(StartCommand);
 container.bind<Command>(TYPES.Command).to(RestartCommand);
 
-container.bind<Message>(TYPES.Message).to(BotMessage);
+container.bind<Message>(TYPES.Message).to(ChannelMessage);
 
 container.bind<Trigger>(TYPES.Trigger).to(MessageTrigger);
 
 container.bind<IConfigService>(TYPES.IConfigService).to(ConfigService);
+container.bind<JSONStorage>(TYPES.JSONStorage).to(JSONStorage);
 
 container.bind<Bot>(TYPES.Bot).to(Bot);
 export { container };

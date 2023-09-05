@@ -8,5 +8,6 @@ const TYPES = {
   Message: Symbol("Message"),
   MessageTrigger: Symbol("MessageTrigger"),
   Messages: Symbol("Messages"),
+  JSONStorage: Symbol("JSONStorage"),
 };
 export default TYPES;
