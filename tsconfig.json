@@ -19,7 +19,8 @@
       "@commands/*": ["./src/commands/*"],
       "@triggers/*": ["./src/triggers/*"],
       "@locales/*": ["./src/locales/*"],
-      "@core/*": ["./src/core/*"]
+      "@core/*": ["./src/core/*"],
+      "@hearts/*": ["./src/hearts/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,

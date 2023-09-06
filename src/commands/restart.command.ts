@@ -1,11 +1,11 @@
 import { CommandsContext } from "@context/commands.context";
-import { Command } from "@abstract/command.class";
+import Command from "@abstract/command.class";
 import { injectable } from "inversify";
 import { Markup } from "telegraf";
 import Localization from "@core/locale/i18next";
 
 @injectable()
-export class RestartCommand extends Command {
+export default class RestartCommand extends Command {
   constructor() {
     super("restart");
   }

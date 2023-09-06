@@ -9,5 +9,7 @@ const TYPES = {
   MessageTrigger: Symbol("MessageTrigger"),
   Messages: Symbol("Messages"),
   JSONStorage: Symbol("JSONStorage"),
+  IHeartService: Symbol("IHeartService"),
+  HeartSettings: Symbol("HeartSettings"),
 };
 export default TYPES;

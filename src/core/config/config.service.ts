@@ -1,10 +1,10 @@
 import Localization from "@core/locale/i18next";
 import { config, DotenvParseOutput } from "dotenv";
 import { injectable } from "inversify";
-import { IConfigService } from "./config.interface";
+import IConfigService from "./config.interface";
 
 @injectable()
-export class ConfigService implements IConfigService {
+export default class ConfigService implements IConfigService {
   private config: DotenvParseOutput;
 
   constructor() {

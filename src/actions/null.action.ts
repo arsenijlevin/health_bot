@@ -1,7 +1,7 @@
-import { Action } from "@abstract/actions.class";
+import Action from "@abstract/actions.class";
 import { ActionsContext } from "@context/actions.context";
 
-export class NullAction extends Action {
+export default class NullAction extends Action {
   constructor() {
     super("null");
   }

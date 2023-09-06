@@ -3,7 +3,7 @@ import { Context } from "telegraf";
 import { Message, Update } from "typegram";
 
 @injectable()
-export abstract class Trigger {
+export default abstract class Trigger {
   constructor(
     public triggerText:
       | ((update: Update) => update is Update.MessageUpdate<Record<"text", unknown> & Message.TextMessage>)

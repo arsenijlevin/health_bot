@@ -1,7 +1,13 @@
-import { Bot } from "@core/bot";
+import Bot, { BotSettings } from "@core/bot";
 import TYPES from "@container/types";
 import { container } from "@container/container";
 
+const botSettings: BotSettings = {
+  hearts: 11,
+  fullHeartImage: "assets/img/full-heart.png",
+  emptyHeartImage: "assets/img/empty-heart.png",
+};
+
 const bot = container.get<Bot>(TYPES.Bot);
 
-void bot.start();
+void bot.start(botSettings);

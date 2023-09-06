@@ -1,61 +1,28 @@
-import { Message } from "@abstract/triggers/message.class";
+import Message from "@abstract/triggers/message.class";
+import TYPES from "@container/types";
 import { MessagesContext } from "@context/message.context";
-import Localization from "@core/locale/i18next";
-import joinImages from "join-images";
-import sharp from "sharp";
+import IHeartsService from "@hearts/hearts.interface";
+import { inject } from "inversify";
 
-export class ChannelMessage extends Message {
-  constructor() {
+export default class ChannelMessage extends Message {
+  constructor(@inject(TYPES.IHeartService) private readonly heartService: IHeartsService) {
     super();
   }
 
   public async handle(ctx: MessagesContext) {
+    if (ctx.chat.type !== "group") return;
     if (ctx.from.is_bot) return;
 
-    if (ctx.chat.type !== "group") return;
+    await this.heartService.removeHearts(1);
 
-    await ctx.reply(Localization.t("logic:loseHPWithLastWarning"));
+    const heartCountMessage = await this.heartService.getHeartCountMessage();
+    const heartImageBuffer = await this.heartService.getHeartImage();
 
-    const img = sharp({
-      create: {
-        width: 500,
-        height: 500,
-        channels: 4,
-        background: { r: 255, g: 255, b: 255, alpha: 1 },
-      },
-    }).png();
-    if (!img) return;
+    await ctx.reply(heartCountMessage);
 
-    
-
-    img.composite([
-      {
-        input: "assets/img/full-heart.jpg",
-        left: 0,
-        top: 250 - 75,
-      },
-      {
-        input: "assets/img/full-heart.jpg",
-        left: 160,
-        top: 250 - 75,
-      },
-      {
-        input: "assets/img/full-heart.jpg",
-        left: 320,
-        top: 250 - 75,
-      },
-    ]);
-
-    img.toBuffer((err, buffer, _) => {
-      void ctx.setChatPhoto({
-        source: buffer,
-        filename: "processed.jpg",
-      });
+    await ctx.setChatPhoto({
+      source: heartImageBuffer,
+      filename: "currentChannelHearts.jpg",
     });
-
-    // await ctx.setChatPhoto({
-    //   source: fs.readFileSync("../assets/img/processed.jpg"),
-    //   filename: "processed.jpg",
-    // });
   }
 }

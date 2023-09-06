@@ -1,15 +1,22 @@
 import { Telegraf } from "telegraf";
-import { Command } from "@abstract/command.class";
-import { IConfigService } from "@config/config.interface";
-import { Action } from "@abstract/actions.class";
+import Command from "@abstract/command.class";
+import Action from "@abstract/actions.class";
+import IConfigService from "@config/config.interface";
 import { inject, injectable, multiInject } from "inversify";
 import TYPES from "@container/types";
-import { Trigger } from "@abstract/trigger.class";
+import Trigger from "@abstract/trigger.class";
 import Localization from "@core/locale/i18next";
 import JSONStorage from "@core/storage/local/local.storage";
+import IHeartsService from "@hearts/hearts.interface";
+
+export interface BotSettings {
+  hearts: number;
+  fullHeartImage: string;
+  emptyHeartImage: string;
+}
 
 @injectable()
-export class Bot {
+export default class Bot {
   private bot: Telegraf;
 
   constructor(
@@ -18,17 +25,19 @@ export class Bot {
     @inject(TYPES.JSONStorage) private readonly storage: JSONStorage,
     @multiInject(TYPES.Action) private readonly actions: Action[],
     @multiInject(TYPES.Command) private readonly commands: Command[],
-    @multiInject(TYPES.Trigger) private readonly triggers: Trigger[]
+    @multiInject(TYPES.Trigger) private readonly triggers: Trigger[],
+    @inject(TYPES.IHeartService) private readonly heartService: IHeartsService
   ) {
     this.bot = new Telegraf(this.configService.getBotToken());
   }
 
-  public async start(): Promise<void> {
+  public async start(settings: BotSettings): Promise<void> {
+    await this.initStorage();
+    await this.heartService.initHearts(settings);
+
     this.initCommands();
     this.initActions();
     this.initOnTriggers();
-
-    await this.initStorage();
 
     /**
      * Bot.launch does not resolve a promise.
@@ -38,6 +47,10 @@ export class Bot {
     void this.bot.launch();
 
     await this.printBotStatus();
+  }
+
+  public getBotContext() {
+    return this.bot;
   }
 
   private initCommands(): void {
