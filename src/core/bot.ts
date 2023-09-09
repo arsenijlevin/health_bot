@@ -1,13 +1,13 @@
 import { Telegraf } from "telegraf";
-import Command from "@abstract/command.class";
-import Action from "@abstract/actions.class";
+import Action from "@abstract/actions.abstract";
 import IConfigService from "@config/config.interface";
 import { inject, injectable, multiInject } from "inversify";
 import TYPES from "@container/types";
-import Trigger from "@abstract/trigger.class";
+import Trigger from "@abstract/trigger.abstract";
 import Localization from "@core/locale/i18next";
-import JSONStorage from "@core/storage/local/local.storage";
+import JSONStorage from "@core/storage/local/json.storage";
 import IHeartsService from "@hearts/hearts.interface";
+import Timeout from "@timeout/timeout.interface";
 
 export interface BotSettings {
   hearts: number;
@@ -24,18 +24,19 @@ export default class Bot {
     private readonly configService: IConfigService,
     @inject(TYPES.JSONStorage) private readonly storage: JSONStorage,
     @multiInject(TYPES.Action) private readonly actions: Action[],
-    @multiInject(TYPES.Command) private readonly commands: Command[],
     @multiInject(TYPES.Trigger) private readonly triggers: Trigger[],
-    @inject(TYPES.IHeartService) private readonly heartService: IHeartsService
+    @inject(TYPES.IHeartService) private readonly heartService: IHeartsService,
+    @inject(TYPES.HeartTimeout) private readonly heartTimeout: Timeout
   ) {
-    this.bot = new Telegraf(this.configService.getBotToken());
+    this.bot = new Telegraf(this.configService.getBotToken(), {
+      
+    });
   }
 
   public async start(settings: BotSettings): Promise<void> {
     await this.initStorage();
     await this.heartService.initHearts(settings);
 
-    this.initCommands();
     this.initActions();
     this.initOnTriggers();
 
@@ -47,18 +48,12 @@ export default class Bot {
     void this.bot.launch();
 
     await this.printBotStatus();
+
+    await this.heartTimeout.add(this.getBotContext().telegram);
   }
 
   public getBotContext() {
     return this.bot;
-  }
-
-  private initCommands(): void {
-    for (const command of this.commands) {
-      this.bot.command(command.triggerText, (ctx) => command.handle(ctx));
-    }
-
-    console.log(Localization.t("info:commandsInitializedSuccessful", { count: this.commands.length }));
   }
 
   private initActions(): void {

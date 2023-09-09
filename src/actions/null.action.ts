@@ -1,4 +1,4 @@
-import Action from "@abstract/actions.class";
+import Action from "@abstract/actions.abstract";
 import { ActionsContext } from "@context/actions.context";
 
 export default class NullAction extends Action {

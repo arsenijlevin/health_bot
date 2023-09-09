@@ -8,6 +8,7 @@ export default abstract class Trigger {
     public triggerText:
       | ((update: Update) => update is Update.MessageUpdate<Record<"text", unknown> & Message.TextMessage>)
       | "message"
+      | "channel_post"
   ) {}
 
   public abstract handle(ctx: Context): void;

@@ -3,7 +3,7 @@ import TYPES from "@container/types";
 import { container } from "@container/container";
 
 const botSettings: BotSettings = {
-  hearts: 11,
+  hearts: 2,
   fullHeartImage: "assets/img/full-heart.png",
   emptyHeartImage: "assets/img/empty-heart.png",
 };

@@ -20,6 +20,12 @@
     "eqeqeq": ["error", "smart"],
     "no-var": "warn",
     "no-nested-ternary": "warn",
-    "no-template-curly-in-string": "warn"
+    "no-template-curly-in-string": "warn",
+    "@typescript-eslint/no-misused-promises": [
+    "error",
+    {
+      "checksVoidReturn": false
+    }
+  ]
   }
 }

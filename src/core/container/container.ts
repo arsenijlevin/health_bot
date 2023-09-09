@@ -3,30 +3,27 @@ import TYPES from "./types";
 
 import { Container } from "inversify";
 
-import Action from "@abstract/actions.class";
-import Command from "@abstract/command.class";
-
-import StartCommand from "@commands/start.command";
-import RestartCommand from "@commands/restart.command";
+import Action from "@abstract/actions.abstract";
 
 import IConfigService from "@config/config.interface";
 import ConfigService from "@config/config.service";
 
 import Bot from "../bot";
 
-import Trigger from "@abstract/trigger.class";
+import Trigger from "@abstract/trigger.abstract";
 
-import Message from "@abstract/triggers/message.class";
-import MessageTrigger from "@triggers/message.trigger";
+import ChannelPost from "@abstract/triggers/channel-post.abstract";
+import ChannelPostTrigger from "@triggers/channel-post.trigger";
 
 import NullAction from "@actions/null.action";
-import ChannelMessage from "@triggers/messages/channel.message";
 
-import JSONStorage from "@core/storage/local/local.storage";
+import JSONStorage from "@core/storage/local/json.storage";
 import IHeartsService from "@hearts/hearts.interface";
 import HeartsService from "@hearts/hearts.service";
 import HeartSettings from "@hearts/hearts.settings";
-import ResetHeartsCommand from "@commands/reset-hearts.command";
+import PostsHandler from "@posts/posts.manager";
+import HeartTimeout from "@timeout/heart.timeout";
+import AnyPost from "@triggers/channel-post/post";
 
 const container = new Container({
   autoBindInjectable: true,
@@ -36,19 +33,17 @@ const container = new Container({
 
 container.bind<Action>(TYPES.Action).to(NullAction);
 
-container.bind<Command>(TYPES.Command).to(StartCommand);
-container.bind<Command>(TYPES.Command).to(RestartCommand);
-container.bind<Command>(TYPES.Command).to(ResetHeartsCommand);
+container.bind<ChannelPost>(TYPES.ChannelPost).to(AnyPost);
 
-container.bind<Message>(TYPES.Message).to(ChannelMessage);
-
-container.bind<Trigger>(TYPES.Trigger).to(MessageTrigger);
+container.bind<Trigger>(TYPES.Trigger).to(ChannelPostTrigger);
 
 container.bind<IConfigService>(TYPES.IConfigService).to(ConfigService);
 container.bind<JSONStorage>(TYPES.JSONStorage).to(JSONStorage);
 container.bind<IHeartsService>(TYPES.IHeartService).to(HeartsService);
 
-container.bind<HeartSettings>(TYPES.HeartSettings).to(HeartSettings);
+container.bind<HeartSettings>(TYPES.HeartSettings).to(HeartSettings)
+container.bind<PostsHandler>(TYPES.PostsHandler).to(PostsHandler);
+container.bind<HeartTimeout>(TYPES.HeartTimeout).to(HeartTimeout)
 
 container.bind<Bot>(TYPES.Bot).to(Bot);
 export { container };

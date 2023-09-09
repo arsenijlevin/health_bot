@@ -5,11 +5,12 @@ const TYPES = {
   Command: Symbol("Command"),
   Bot: Symbol("Bot"),
   Trigger: Symbol("Trigger"),
-  Message: Symbol("Message"),
-  MessageTrigger: Symbol("MessageTrigger"),
-  Messages: Symbol("Messages"),
+  ChannelPost: Symbol("ChannelPost"),
+  ChannelPostTrigger: Symbol("ChannelPostTrigger"),
   JSONStorage: Symbol("JSONStorage"),
   IHeartService: Symbol("IHeartService"),
   HeartSettings: Symbol("HeartSettings"),
+  PostsHandler: Symbol("PostsHandler"),
+  HeartTimeout: Symbol("HeartTimeout")
 };
 export default TYPES;

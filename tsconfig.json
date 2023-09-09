@@ -20,7 +20,9 @@
       "@triggers/*": ["./src/triggers/*"],
       "@locales/*": ["./src/locales/*"],
       "@core/*": ["./src/core/*"],
-      "@hearts/*": ["./src/hearts/*"]
+      "@hearts/*": ["./src/hearts/*"],
+      "@posts/*": ["./src/posts/*"],
+      "@timeout/*": ["./src/timeout/*"]
     },
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
