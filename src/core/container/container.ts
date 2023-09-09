@@ -41,9 +41,9 @@ container.bind<IConfigService>(TYPES.IConfigService).to(ConfigService);
 container.bind<JSONStorage>(TYPES.JSONStorage).to(JSONStorage);
 container.bind<IHeartsService>(TYPES.IHeartService).to(HeartsService);
 
-container.bind<HeartSettings>(TYPES.HeartSettings).to(HeartSettings)
+container.bind<HeartSettings>(TYPES.HeartSettings).to(HeartSettings);
 container.bind<PostsHandler>(TYPES.PostsHandler).to(PostsHandler);
-container.bind<HeartTimeout>(TYPES.HeartTimeout).to(HeartTimeout)
+container.bind<HeartTimeout>(TYPES.HeartTimeout).to(HeartTimeout);
 
 container.bind<Bot>(TYPES.Bot).to(Bot);
 export { container };

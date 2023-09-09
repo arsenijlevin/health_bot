@@ -11,6 +11,6 @@ const TYPES = {
   IHeartService: Symbol("IHeartService"),
   HeartSettings: Symbol("HeartSettings"),
   PostsHandler: Symbol("PostsHandler"),
-  HeartTimeout: Symbol("HeartTimeout")
+  HeartTimeout: Symbol("HeartTimeout"),
 };
 export default TYPES;

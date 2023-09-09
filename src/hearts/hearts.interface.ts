@@ -9,8 +9,8 @@ export default interface IHeartsService {
   getHeartImage: () => Promise<Buffer>;
   getHeartState: () => Promise<HeartState>;
   getHeartCountMessage: () => Promise<string>;
-  setLastHeartRemoveDate: (dateISO : string) => Promise<void>;
-  getHeartSettings: () => HeartSettings
-  setStage: (stage : HeartRemoveStages) => Promise<void>
-  setNextStage: () => Promise<void>
+  setLastHeartRemoveDate: (dateISO: string) => Promise<void>;
+  getHeartSettings: () => HeartSettings;
+  setStage: (stage: HeartRemoveStages) => Promise<void>;
+  setNextStage: () => Promise<void>;
 }

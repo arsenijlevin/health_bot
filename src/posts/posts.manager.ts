@@ -14,30 +14,10 @@ export default class PostsHandler {
     @inject(TYPES.JSONStorage) private readonly storage: JSONStorage
   ) {}
 
-  // public async handleCountdownStart() {
-  //   const now = DateTime.now().toISO() ?? "";
-  //   const heartInitState = this.heartService.getHeartSettings().getHeartInitState();
-
-  //   await this.heartService.setLastHeartRemoveDate(now);
-
-  //   this.heartService.getHeartSettings().setInitState({
-  //     ...heartInitState,
-  //     heartRemove: {
-  //       stage: HeartRemoveStages.HOURS_24,
-  //       lastDateISO: now,
-  //     },
-  //   });
-
-  //   await this.heartService.resetHeartState();
-  // }
-
   public async handleWithoutPost(telegram: Telegram) {
     const state = await this.heartService.getHeartState();
 
-    if (
-      state.heartRemove.stage === HeartRemoveStages.HOURS_24 ||
-      state.heartRemove.stage === HeartRemoveStages.END
-    ) {
+    if (state.heartRemove.stage === HeartRemoveStages.HOURS_24 || state.heartRemove.stage === HeartRemoveStages.END) {
       await this.heartService.removeHearts(1);
     }
 

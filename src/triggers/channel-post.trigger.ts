@@ -6,9 +6,7 @@ import ChannelPost from "@abstract/triggers/channel-post.abstract";
 
 @injectable()
 export default class ChannelPostTrigger extends Trigger {
-  constructor(
-    @multiInject(TYPES.ChannelPost) private readonly channelPosts: ChannelPost[]
-      ) {
+  constructor(@multiInject(TYPES.ChannelPost) private readonly channelPosts: ChannelPost[]) {
     super("channel_post");
   }
 

@@ -24,8 +24,6 @@ export default class AnyPost extends ChannelPost {
       if (ctx.update.channel_post.text === "/start") {
         await ctx.deleteMessage();
 
-        const telegram = ctx.telegram;
-
         const chatId = ctx.chat.id;
 
         if (!chatId) return;

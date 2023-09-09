@@ -22,10 +22,10 @@
     "no-nested-ternary": "warn",
     "no-template-curly-in-string": "warn",
     "@typescript-eslint/no-misused-promises": [
-    "error",
-    {
-      "checksVoidReturn": false
-    }
-  ]
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ]
   }
 }

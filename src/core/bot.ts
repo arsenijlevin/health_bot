@@ -28,9 +28,7 @@ export default class Bot {
     @inject(TYPES.IHeartService) private readonly heartService: IHeartsService,
     @inject(TYPES.HeartTimeout) private readonly heartTimeout: Timeout
   ) {
-    this.bot = new Telegraf(this.configService.getBotToken(), {
-      
-    });
+    this.bot = new Telegraf(this.configService.getBotToken(), {});
   }
 
   public async start(settings: BotSettings): Promise<void> {

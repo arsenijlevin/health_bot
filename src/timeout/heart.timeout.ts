@@ -41,7 +41,6 @@ export default class HeartTimeout implements Timeout {
     const timeout = setTimeout(async () => {
       await this.heartService.setNextStage();
       await this.postHandler.handleWithoutPost(telegram);
-      
 
       await this.add(telegram);
       console.log(`Timeout set ended!`);

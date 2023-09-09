@@ -24,7 +24,7 @@ export default class JSONStorage implements Storage {
   }
 
   public async setChatId(id: number) {
-    await this.setItem("chatId", id)
+    await this.setItem("chatId", id);
   }
 
   public async getChatId() {
