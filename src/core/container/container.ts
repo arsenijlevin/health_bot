@@ -21,7 +21,7 @@ import JSONStorage from "@core/storage/local/json.storage";
 import IHeartsService from "@hearts/hearts.interface";
 import HeartsService from "@hearts/hearts.service";
 import HeartSettings from "@hearts/hearts.settings";
-import PostsHandler from "@posts/posts.manager";
+import PostsHandler from "@posts/posts.handler";
 import HeartTimeout from "@timeout/heart.timeout";
 import AnyPost from "@triggers/channel-post/post";
 

@@ -32,10 +32,12 @@ export default class PostsHandler {
 
     if (!chatId) return;
 
-    await telegram.sendMessage(chatId, heartCountMessage);
     await telegram.setChatPhoto(chatId, {
       source: heartImageBuffer,
       filename: "currentChannelHearts.jpg",
+    });
+    await telegram.sendMessage(chatId, heartCountMessage, {
+      disable_notification: true,
     });
   }
 

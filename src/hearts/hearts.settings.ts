@@ -2,6 +2,7 @@ import { BotSettings } from "@core/bot";
 import { injectable } from "inversify";
 import { DateTime } from "luxon";
 
+// Minutes
 // export const enum HeartRemoveStages {
 //   HOURS_24 = 24 * 60,
 //   HOURS_8 = 8 * 60,
@@ -11,6 +12,7 @@ import { DateTime } from "luxon";
 //   END = 0
 // }
 
+// Minutes
 export const enum HeartRemoveStages {
   HOURS_24 = 10 / 60,
   HOURS_8 = 8 / 60,

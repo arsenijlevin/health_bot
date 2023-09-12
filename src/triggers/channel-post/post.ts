@@ -4,6 +4,7 @@ import { ChannelPostContext } from "@context/channel-post.context";
 import JSONStorage from "@core/storage/local/json.storage";
 import IHeartsService from "@hearts/hearts.interface";
 import { HeartRemoveStages } from "@hearts/hearts.settings";
+import PostsHandler from "@posts/posts.handler";
 import HeartTimeout from "@timeout/heart.timeout";
 import { inject } from "inversify";
 import { DateTime } from "luxon";
@@ -12,13 +13,17 @@ export default class AnyPost extends ChannelPost {
   constructor(
     @inject(TYPES.JSONStorage) private readonly storage: JSONStorage,
     @inject(TYPES.IHeartService) private readonly heartService: IHeartsService,
-    @inject(TYPES.HeartTimeout) private readonly heartTimeout: HeartTimeout
+    @inject(TYPES.HeartTimeout) private readonly heartTimeout: HeartTimeout,
+    @inject(TYPES.PostsHandler) private readonly postsHandler: PostsHandler
   ) {
     super();
   }
 
   public async handle(ctx: ChannelPostContext) {
-    console.log(ctx.update.channel_post);
+    if ("new_chat_photo" in ctx.update.channel_post) {
+      await ctx.deleteMessage();
+      return;
+    }
 
     if ("text" in ctx.update.channel_post) {
       if (ctx.update.channel_post.text === "/start") {
@@ -31,11 +36,11 @@ export default class AnyPost extends ChannelPost {
         await this.storage.setChatId(chatId);
 
         console.log(`Успешно установлен chatId ${chatId}`);
+
+        return;
       }
 
       if (ctx.update.channel_post.text === "/reset") {
-        await ctx.deleteMessage();
-
         await this.heartService.resetHeartState();
 
         await this.heartService.setLastHeartRemoveDate(DateTime.now().toISO() ?? "");
@@ -49,7 +54,14 @@ export default class AnyPost extends ChannelPost {
           source: heartImageBuffer,
           filename: "currentChannelHearts.jpg",
         });
+
+        await ctx.deleteMessage();
+
+        return;
       }
     }
+
+    await this.postsHandler.handlePost(ctx);
+    await this.heartTimeout.add(ctx.telegram);
   }
 }

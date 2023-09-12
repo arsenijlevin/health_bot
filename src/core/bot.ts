@@ -32,6 +32,8 @@ export default class Bot {
   }
 
   public async start(settings: BotSettings): Promise<void> {
+    this.initErrorHandling();
+
     await this.initStorage();
     await this.heartService.initHearts(settings);
 
@@ -52,6 +54,12 @@ export default class Bot {
 
   public getBotContext() {
     return this.bot;
+  }
+
+  private initErrorHandling() {
+    this.bot.catch((err) => {
+      console.log("Error: ", err);
+    });
   }
 
   private initActions(): void {
