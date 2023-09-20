@@ -4,7 +4,7 @@ import TYPES from "@container/types";
 import { DateTime } from "luxon";
 import PostsHandler from "@posts/posts.handler";
 import IHeartsService from "@hearts/hearts.interface";
-import { HeartRemoveStages } from "@hearts/hearts.settings";
+import { HeartRemoveStages } from "../settings/hearts.settings";
 import { Telegram } from "telegraf";
 import JSONStorage from "@core/storage/local/json.storage";
 
@@ -20,17 +20,27 @@ export default class HeartTimeout implements Timeout {
     @inject(TYPES.JSONStorage) private readonly storage: JSONStorage
   ) {}
 
+  public remove() {
+    if (this.timeout) clearTimeout(this.timeout);
+  }
+
   public async add(telegram: Telegram): Promise<void> {
     const chatId = await this.storage.getChatId();
     if (!chatId) return;
 
-    if (this.timeout) clearTimeout(this.timeout);
+    this.remove();
 
     const state = await this.heartService.getHeartState();
 
     if (state.heartRemove.stage === HeartRemoveStages.END) return;
 
-    const timeoutTime = state.heartRemove.stage * 60 * 1000;
+    const stageTime = this.heartService.getTimeForState(state.heartRemove.stage);
+
+    console.log(stageTime);
+
+    if (!stageTime) return;
+
+    const timeoutTime = stageTime * 60 * 1000;
 
     this.setTimeout(async () => {
       await this.heartService.setNextStage();

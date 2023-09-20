@@ -1,25 +1,15 @@
-import { BotSettings } from "@core/bot";
+import { IHeartsSettings } from "@core/bot";
 import { injectable } from "inversify";
 import { DateTime } from "luxon";
 
 // Minutes
-// export const enum HeartRemoveStages {
-//   HOURS_24 = 24 * 60,
-//   HOURS_8 = 8 * 60,
-//   HOURS_4 = 4 * 60,
-//   HOURS_1 = 60,
-//   MINUTES_10 = 10,
-//   END = 0
-// }
-
-// Minutes
 export const enum HeartRemoveStages {
-  HOURS_24 = 10 / 60,
-  HOURS_8 = 8 / 60,
-  HOURS_4 = 4 / 60,
-  HOURS_1 = 1 / 60,
-  MINUTES_10 = 1 / 10,
-  END = 0,
+  HOURS_24,
+  HOURS_8,
+  HOURS_4,
+  HOURS_1,
+  MINUTES_10,
+  END,
 }
 
 export interface HeartState {
@@ -63,7 +53,7 @@ export default class HeartSettings {
     empty: "",
   };
 
-  public setSettings(settings: BotSettings) {
+  public setSettings(settings: IHeartsSettings) {
     this.setInitState({
       ...this.getHeartInitState(),
       count: {

@@ -1,6 +1,5 @@
 import i18next from "i18next";
 
-import buttons from "@locales/ru/buttons.json";
 import info from "@locales/ru/info.json";
 import errors from "@locales/ru/errors.json";
 import logic from "@locales/ru/logic.json";
@@ -12,7 +11,6 @@ void i18next.init({
   defaultNS,
   resources: {
     ru: {
-      buttons: buttons,
       info: info,
       errors: errors,
       logic: logic,

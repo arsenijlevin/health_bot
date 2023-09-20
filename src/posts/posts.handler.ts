@@ -2,7 +2,7 @@ import TYPES from "@container/types";
 import { ChannelPostContext } from "@context/channel-post.context";
 import JSONStorage from "@core/storage/local/json.storage";
 import IHeartsService from "@hearts/hearts.interface";
-import { HeartRemoveStages } from "@hearts/hearts.settings";
+import { HeartRemoveStages } from "../settings/hearts.settings";
 import { inject, injectable } from "inversify";
 import { DateTime } from "luxon";
 import { Telegram } from "telegraf";
@@ -32,12 +32,13 @@ export default class PostsHandler {
 
     if (!chatId) return;
 
-    await telegram.setChatPhoto(chatId, {
+    void telegram.sendMessage(chatId, heartCountMessage, {
+      disable_notification: true,
+    });
+
+    void telegram.setChatPhoto(chatId, {
       source: heartImageBuffer,
       filename: "currentChannelHearts.jpg",
-    });
-    await telegram.sendMessage(chatId, heartCountMessage, {
-      disable_notification: true,
     });
   }
 

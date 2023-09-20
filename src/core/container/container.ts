@@ -20,10 +20,11 @@ import NullAction from "@actions/null.action";
 import JSONStorage from "@core/storage/local/json.storage";
 import IHeartsService from "@hearts/hearts.interface";
 import HeartsService from "@hearts/hearts.service";
-import HeartSettings from "@hearts/hearts.settings";
+import HeartSettings from "../../settings/hearts.settings";
 import PostsHandler from "@posts/posts.handler";
 import HeartTimeout from "@timeout/heart.timeout";
 import AnyPost from "@triggers/channel-post/post";
+import ParsedBotSettings from "../../settings/parser.settings";
 
 const container = new Container({
   autoBindInjectable: true,
@@ -44,6 +45,8 @@ container.bind<IHeartsService>(TYPES.IHeartService).to(HeartsService);
 container.bind<HeartSettings>(TYPES.HeartSettings).to(HeartSettings);
 container.bind<PostsHandler>(TYPES.PostsHandler).to(PostsHandler);
 container.bind<HeartTimeout>(TYPES.HeartTimeout).to(HeartTimeout);
+
+container.bind<ParsedBotSettings>(TYPES.ParsedBotSettings).to(ParsedBotSettings);
 
 container.bind<Bot>(TYPES.Bot).to(Bot);
 export { container };

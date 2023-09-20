@@ -1,8 +1,7 @@
-import { BotSettings } from "@core/bot";
-import HeartSettings, { HeartRemoveStages, HeartState } from "@hearts/hearts.settings";
+import HeartSettings, { HeartRemoveStages, HeartState } from "src/settings/hearts.settings";
 
 export default interface IHeartsService {
-  initHearts: (settings: BotSettings) => Promise<void>;
+  initHearts: () => Promise<void>;
   resetHeartState: () => Promise<void>;
   removeHearts: (count: number) => Promise<void>;
   addHearts: (count: number) => Promise<void>;
@@ -13,4 +12,5 @@ export default interface IHeartsService {
   getHeartSettings: () => HeartSettings;
   setStage: (stage: HeartRemoveStages) => Promise<void>;
   setNextStage: () => Promise<void>;
+  getTimeForState: (stage: HeartRemoveStages) => number | undefined;
 }

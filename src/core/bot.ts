@@ -6,10 +6,10 @@ import TYPES from "@container/types";
 import Trigger from "@abstract/trigger.abstract";
 import Localization from "@core/locale/i18next";
 import JSONStorage from "@core/storage/local/json.storage";
-import IHeartsService from "@hearts/hearts.interface";
 import Timeout from "@timeout/timeout.interface";
+import IHeartsService from "@hearts/hearts.interface";
 
-export interface BotSettings {
+export interface IHeartsSettings {
   hearts: number;
   fullHeartImage: string;
   emptyHeartImage: string;
@@ -25,17 +25,17 @@ export default class Bot {
     @inject(TYPES.JSONStorage) private readonly storage: JSONStorage,
     @multiInject(TYPES.Action) private readonly actions: Action[],
     @multiInject(TYPES.Trigger) private readonly triggers: Trigger[],
-    @inject(TYPES.IHeartService) private readonly heartService: IHeartsService,
-    @inject(TYPES.HeartTimeout) private readonly heartTimeout: Timeout
+    @inject(TYPES.HeartTimeout) private readonly heartTimeout: Timeout,
+    @inject(TYPES.IHeartService) private readonly heartService: IHeartsService
   ) {
     this.bot = new Telegraf(this.configService.getBotToken(), {});
   }
 
-  public async start(settings: BotSettings): Promise<void> {
+  public async start(): Promise<void> {
     this.initErrorHandling();
 
     await this.initStorage();
-    await this.heartService.initHearts(settings);
+    await this.heartService.initHearts();
 
     this.initActions();
     this.initOnTriggers();

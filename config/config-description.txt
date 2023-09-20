@@ -1,0 +1,15 @@
+{
+  "maxHearts": 5, // целое число, максимальное количество сердец
+  "heartsImgPath": { 
+    "full": "assets/img/full-heart.png", // путь до файла с изображением целого сердца
+    "empty": "assets/img/empty-heart.png" // путь до файла с изображением пустого сердца
+  },
+  "heartRemoveTime": {  // время до удаления сердца в минутах
+    "HOURS_24": 0.1,
+    "HOURS_8": 0.5,
+    "HOURS_4": 0.02,
+    "HOURS_1": 0.05,
+    "MINUTES_10": 0.01,
+    "END": 0
+  }
+}

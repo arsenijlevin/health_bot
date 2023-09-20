@@ -18,7 +18,7 @@
       "@actions/*": ["./src/actions/*"],
       "@commands/*": ["./src/commands/*"],
       "@triggers/*": ["./src/triggers/*"],
-      "@locales/*": ["./src/locales/*"],
+      "@locales/*": ["./config/locales/*"],
       "@core/*": ["./src/core/*"],
       "@hearts/*": ["./src/hearts/*"],
       "@posts/*": ["./src/posts/*"],

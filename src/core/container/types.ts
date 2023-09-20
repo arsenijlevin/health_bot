@@ -12,5 +12,6 @@ const TYPES = {
   HeartSettings: Symbol("HeartSettings"),
   PostsHandler: Symbol("PostsHandler"),
   HeartTimeout: Symbol("HeartTimeout"),
+  ParsedBotSettings: Symbol("ParsedBotSettings"),
 };
 export default TYPES;

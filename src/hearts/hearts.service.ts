@@ -1,11 +1,11 @@
 import TYPES from "@container/types";
-import { BotSettings } from "@core/bot";
 import Localization from "@core/locale/i18next";
 import JSONStorage from "@core/storage/local/json.storage";
-import HeartSettings, { HeartCount, HeartRemoveStages, HeartState } from "@hearts/hearts.settings";
+import HeartSettings, { HeartCount, HeartRemoveStages, HeartState } from "../settings/hearts.settings";
 import { inject, injectable } from "inversify";
 import sharp from "sharp";
-import IHeartsService from "src/hearts/hearts.interface";
+import IHeartsService from "./hearts.interface";
+import ParsedBotSettings from "../settings/parser.settings";
 
 interface HeartPositionData {
   count: HeartCount;
@@ -20,7 +20,8 @@ interface HeartPositionData {
 export default class HeartsService implements IHeartsService {
   constructor(
     @inject(TYPES.JSONStorage) private readonly storage: JSONStorage,
-    @inject(TYPES.HeartSettings) private readonly settings: HeartSettings
+    @inject(TYPES.HeartSettings) private readonly heartSettings: HeartSettings,
+    @inject(TYPES.ParsedBotSettings) private readonly botSettings: ParsedBotSettings
   ) {}
 
   public async setStage(stage: HeartRemoveStages) {
@@ -48,25 +49,41 @@ export default class HeartsService implements IHeartsService {
   }
 
   public getHeartSettings() {
-    return this.settings;
+    return this.heartSettings;
+  }
+
+  public getTimeForState(stage: HeartRemoveStages) {
+    return this.botSettings.getHeartRemoveTimesAsArray()[stage];
   }
 
   public async resetHeartState() {
-    await this.storage.setItem(this.settings.heartStateKey, this.settings.getHeartInitState());
+    await this.storage.setItem(this.heartSettings.heartStateKey, this.heartSettings.getHeartInitState());
   }
 
   public async getHeartState(): Promise<HeartState> {
-    return this.storage.getItem(this.settings.heartStateKey);
+    return this.storage.getItem(this.heartSettings.heartStateKey);
   }
 
   private async updateHeartState(heartState: HeartState) {
-    return this.storage.updateItem(this.settings.heartStateKey, heartState);
+    return this.storage.updateItem(this.heartSettings.heartStateKey, heartState);
   }
 
-  public async initHearts(settings: BotSettings) {
+  public async initHearts() {
+    this.botSettings.setupSettingFromFile();
+
+    const json = this.botSettings.getSettings();
+
+    if (!json) return;
+
+    const settings = {
+      hearts: json.maxHearts,
+      fullHeartImage: json.heartsImgPath.full,
+      emptyHeartImage: json.heartsImgPath.empty,
+    };
+
     const heartState = await this.getHeartState();
 
-    this.settings.setSettings(settings);
+    this.heartSettings.setSettings(settings);
 
     if (!heartState) {
       await this.resetHeartState();
@@ -188,7 +205,7 @@ export default class HeartsService implements IHeartsService {
 
   public async getHeartImage() {
     const heartState = await this.getHeartState();
-    const images = this.settings.getHeartImages();
+    const images = this.heartSettings.getHeartImages();
 
     const blankImage = sharp({
       create: {
@@ -235,7 +252,7 @@ export default class HeartsService implements IHeartsService {
       const heartInRowIndex = currentHeartIndex % 5;
 
       positions.push({
-        top: 500 / 2 - this.settings.imageSize / 2 + this.settings.imageSize * row,
+        top: 500 / 2 - this.heartSettings.imageSize / 2 + this.heartSettings.imageSize * row,
         left: 100 * heartInRowIndex,
         isEmpty: currentHeartIndex >= hearts.full,
       });
