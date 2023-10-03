@@ -47,6 +47,8 @@ export default class PostsHandler {
   }
 
   public async handlePost(ctx: ChannelPostContext) {
+    await this.deleteLastHeartMessage(ctx.telegram);
+
     await this.heartService.resetHeartState();
 
     const heartImageBuffer = await this.heartService.getHeartImage();
@@ -55,10 +57,6 @@ export default class PostsHandler {
       source: heartImageBuffer,
       filename: "currentChannelHearts.jpg",
     });
-
-    await this.deleteLastHeartMessage(ctx.telegram);
-
-    await this.setLastHeartMessage(undefined);
   }
 
   private async setLastHeartMessage(messageId: number | undefined) {
