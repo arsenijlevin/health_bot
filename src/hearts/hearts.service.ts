@@ -139,11 +139,19 @@ export default class HeartsService implements IHeartsService {
     switch (stage) {
       case HeartRemoveStages.HOURS_24: {
         if (heartState.count.full === 2) {
-          heartCountMessage = Localization.t("logic:loseHPWithWarning");
+          heartCountMessage = Localization.t("logic:loseHPWithWarning", {
+            val: "",
+            emptyHearts: heartState.count.empty,
+            fullHearts: heartState.count.full,
+          });
         }
 
         if (heartState.count.full === 1) {
-          heartCountMessage = Localization.t("logic:loseHPWithLastWarning");
+          heartCountMessage = Localization.t("logic:loseHPWithLastWarning", {
+            val: "",
+            emptyHearts: heartState.count.empty,
+            fullHearts: heartState.count.full,
+          });
         }
 
         break;
