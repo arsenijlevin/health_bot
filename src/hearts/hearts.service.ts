@@ -58,6 +58,7 @@ export default class HeartsService implements IHeartsService {
 
   public async resetHeartState() {
     await this.storage.setItem(this.heartSettings.heartStateKey, this.heartSettings.getHeartInitState());
+    await this.storage.setItem("lastHeartMessage", undefined);
   }
 
   public async getHeartState(): Promise<HeartState> {
