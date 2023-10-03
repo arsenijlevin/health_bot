@@ -30,16 +30,16 @@ export default class PostsHandler {
 
     if (!chatId) return;
 
-    await telegram.sendMessage(chatId, heartCountMessage, {
-      disable_notification: true,
-    });
-
     if (state.heartRemove.stage === HeartRemoveStages.HOURS_24 || state.heartRemove.stage === HeartRemoveStages.END) {
       await telegram.setChatPhoto(chatId, {
         source: heartImageBuffer,
         filename: "currentChannelHearts.jpg",
       });
     }
+
+    await telegram.sendMessage(chatId, heartCountMessage, {
+      disable_notification: true,
+    });
   }
 
   public async handlePost(ctx: ChannelPostContext) {
