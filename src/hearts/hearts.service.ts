@@ -130,7 +130,11 @@ export default class HeartsService implements IHeartsService {
     const heartState = await this.getHeartState();
     const stage = heartState.heartRemove.stage;
 
-    let heartCountMessage = Localization.t("logic:loseHP");
+    let heartCountMessage = Localization.t("logic:loseHP", {
+      val: "",
+      emptyHearts: heartState.count.empty,
+      fullHearts: heartState.count.full,
+    });
 
     switch (stage) {
       case HeartRemoveStages.HOURS_24: {

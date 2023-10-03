@@ -18,6 +18,24 @@ void i18next.init({
   },
 });
 
+i18next.services.formatter?.add(
+  "display-hearts",
+  (
+    value: string,
+    lng,
+    options: {
+      value: string;
+      fullHearts: number;
+      emptyHearts: number;
+    }
+  ) => {
+    const fullHearts = "❤️".repeat(options.fullHearts);
+    const emptyHearts = "🖤".repeat(options.emptyHearts);
+
+    return `${fullHearts}${emptyHearts}`;
+  }
+);
+
 const Localization = i18next;
 
 export default Localization;

@@ -28,18 +28,18 @@ export default class PostsHandler {
 
     const chatId = await this.storage.getChatId();
 
-    if (state.count.full === 0) return;
-
     if (!chatId) return;
 
-    void telegram.sendMessage(chatId, heartCountMessage, {
+    await telegram.sendMessage(chatId, heartCountMessage, {
       disable_notification: true,
     });
 
-    void telegram.setChatPhoto(chatId, {
-      source: heartImageBuffer,
-      filename: "currentChannelHearts.jpg",
-    });
+    if (state.heartRemove.stage === HeartRemoveStages.HOURS_24 || state.heartRemove.stage === HeartRemoveStages.END) {
+      await telegram.setChatPhoto(chatId, {
+        source: heartImageBuffer,
+        filename: "currentChannelHearts.jpg",
+      });
+    }
   }
 
   public async handlePost(ctx: ChannelPostContext) {

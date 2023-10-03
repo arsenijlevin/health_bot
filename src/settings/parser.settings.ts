@@ -24,8 +24,6 @@ export default class ParsedBotSettings {
   private SETTINGS: BotConfigJSON | undefined;
 
   public setupSettingFromFile(filepath = this.FILEPATH) {
-    console.log(filepath);
-
     const fileText = fs.readFileSync(filepath).toString();
 
     const json = JSON.parse(fileText) as BotConfigJSON;

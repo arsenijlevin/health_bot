@@ -36,8 +36,6 @@ export default class HeartTimeout implements Timeout {
 
     const stageTime = this.heartService.getTimeForState(state.heartRemove.stage);
 
-    console.log(stageTime);
-
     if (!stageTime) return;
 
     const timeoutTime = stageTime * 60 * 1000;
