@@ -37,9 +37,13 @@ export default class PostsHandler {
       });
     }
 
-    await telegram.sendMessage(chatId, heartCountMessage, {
+    await this.deleteLastHeartMessage(telegram);
+
+    const messageId = await telegram.sendMessage(chatId, heartCountMessage, {
       disable_notification: true,
     });
+
+    await this.setLastHeartMessage(messageId.message_id);
   }
 
   public async handlePost(ctx: ChannelPostContext) {
@@ -51,5 +55,30 @@ export default class PostsHandler {
       source: heartImageBuffer,
       filename: "currentChannelHearts.jpg",
     });
+
+    await this.deleteLastHeartMessage(ctx.telegram);
+
+    await this.setLastHeartMessage(undefined);
+  }
+
+  private async setLastHeartMessage(messageId: number | undefined) {
+    await this.storage.setItem("lastHeartMessage", messageId);
+  }
+
+  private async getLastHeartMessage() {
+    return await this.storage.getItem<number>("lastHeartMessage");
+  }
+
+  private async deleteLastHeartMessage(telegram: Telegram) {
+    const chatId = await this.storage.getChatId();
+    const lastHeartMessage = await this.getLastHeartMessage();
+
+    if (!chatId || !lastHeartMessage) return;
+
+    try {
+      await telegram.deleteMessage(chatId, lastHeartMessage);
+    } catch (err) {
+      console.log("Error while deleting last heart message!");
+    }
   }
 }
